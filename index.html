@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Motorcycle Physics Simulator</title>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%2314171d' stroke='%2338bdf8' stroke-width='3'/></svg>"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles/main.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./src/vendor/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Full-viewport 3D rendering canvas -->
+  <canvas id="sim-canvas" aria-label="3D Motorcycle Physics Simulation Viewport"></canvas>
+
+  <!-- HUD Overlay Layer -->
+  <div class="hud-layer">
+    <!-- Left On-Screen Control Panel -->
+    <aside id="controls-panel" class="hud-card controls-panel" aria-label="Motorcycle Controls and Settings">
+      <header class="card-header">
+        <div>
+          <h1 class="card-title">Motorcycle Controls</h1>
+          <p class="card-subtitle">SI Physics Prototype · Counter-Steer &amp; Lean</p>
+        </div>
+        <button id="btn-toggle-controls" type="button" class="btn-chip">Minimize</button>
+      </header>
+
+      <div id="controls-panel-body" class="card-body">
+        <!-- 1. Steering Input (A / D) & Handlebar Angle -->
+        <section class="control-group">
+          <div class="group-header">
+            <span class="group-label">Steering Bar (A / D)</span>
+            <span id="ctrl-steer-angle-value" class="mono-value">+0.0° (0.000 rad) · CENTER</span>
+          </div>
+          <div class="key-indicator-row">
+            <button id="ctrl-btn-a" type="button" class="key-pill" title="Hold to steer handlebars left">
+              <kbd>A</kbd>
+              <span>Steer Left (<img src="./assets/latex/minus-delta.svg" class="latex-math-img" alt="-δ" />)</span>
+            </button>
+            <button id="ctrl-btn-d" type="button" class="key-pill" title="Hold to steer handlebars right">
+              <kbd>D</kbd>
+              <span>Steer Right (<img src="./assets/latex/plus-delta.svg" class="latex-math-img" alt="+δ" />)</span>
+            </button>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-caption">Bar <img src="./assets/latex/delta.svg" class="latex-math-img" alt="δ" /></span>
+            <div class="bipolar-track">
+              <div class="bipolar-center"></div>
+              <div id="ctrl-steer-bar-marker" class="bipolar-marker steer-marker" style="left: 50%;"></div>
+            </div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-caption">Lean <img src="./assets/latex/phi.svg" class="latex-math-img" alt="φ" /></span>
+            <div class="bipolar-track">
+              <div class="bipolar-center"></div>
+              <div id="ctrl-lean-bar-marker" class="bipolar-marker lean-marker" style="left: 50%;"></div>
+            </div>
+            <span id="ctrl-lean-angle-value" class="mono-subvalue">+0.0° (UPRIGHT)</span>
+          </div>
+        </section>
+
+        <!-- 2. Steering Sensitivity (Left / Right Arrow + Slider) -->
+        <section class="control-group">
+          <div class="group-header">
+            <label for="ctrl-sensitivity-slider" class="group-label">Steering Sensitivity</label>
+            <span id="ctrl-sensitivity-value" class="mono-value">1.00x</span>
+          </div>
+          <div class="slider-control-row">
+            <span id="ctrl-key-left-arrow" class="key-badge" title="Decrease steering sensitivity">←</span>
+            <input
+              id="ctrl-sensitivity-slider"
+              type="range"
+              min="0.25"
+              max="2.50"
+              step="0.05"
+              value="1.00"
+              aria-label="Steering sensitivity"
+            />
+            <span id="ctrl-key-right-arrow" class="key-badge" title="Increase steering sensitivity">→</span>
+          </div>
+        </section>
+
+        <!-- 3. Persistent Throttle (Left Shift / Left Ctrl + Slider) -->
+        <section class="control-group">
+          <div class="group-header">
+            <label for="ctrl-throttle-slider" class="group-label">Persistent Throttle</label>
+            <span id="ctrl-throttle-value" class="mono-value">0%</span>
+          </div>
+          <div class="slider-control-row">
+            <span id="ctrl-key-ctrl" class="key-badge" title="Left Ctrl: Decrease throttle">L-Ctrl −</span>
+            <input
+              id="ctrl-throttle-slider"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="0"
+              aria-label="Persistent throttle percentage"
+            />
+            <span id="ctrl-key-shift" class="key-badge" title="Left Shift: Increase throttle">L-Shift +</span>
+          </div>
+        </section>
+
+        <!-- 4. Rear Brake (Spacebar) -->
+        <section class="control-group">
+          <div class="group-header">
+            <span class="group-label">Rear-Wheel Brake</span>
+            <span id="ctrl-brake-state-text" class="mono-value">RELEASED (0 N)</span>
+          </div>
+          <button id="ctrl-btn-brake" type="button" class="brake-pill">
+            <kbd>Spacebar</kbd>
+            <span>Hold Rear Brake</span>
+          </button>
+        </section>
+
+        <!-- 5. Configurable Physics Parameters -->
+        <details class="config-drawer">
+          <summary>Configurable Physics Parameters (SI)</summary>
+          <div class="config-drawer-body">
+            <div class="param-row">
+              <div class="group-header">
+                <label for="param-brake-force">Max Rear Brake Force</label>
+                <span id="param-brake-force-val" class="mono-value">1750 N</span>
+              </div>
+              <input id="param-brake-force" type="range" min="600" max="3200" step="50" value="1750" />
+            </div>
+            <div class="param-row">
+              <div class="group-header">
+                <label for="param-mass">Total Mass (Bike + Rider)</label>
+                <span id="param-mass-val" class="mono-value">215 kg</span>
+              </div>
+              <input id="param-mass" type="range" min="140" max="320" step="5" value="215" />
+            </div>
+          </div>
+        </details>
+
+        <!-- 6. Action Buttons -->
+        <div class="action-button-row">
+          <button id="btn-reset-bike" type="button" class="btn-secondary">Reset Bike (R)</button>
+          <button id="btn-toggle-camera" type="button" class="btn-secondary">View: 1st-Person Rider (C)</button>
+        </div>
+
+        <!-- 7. Keyboard Controls Reference -->
+        <section class="keyboard-ref" aria-label="Keyboard Controls Reference">
+          <h2 class="ref-title">Keyboard Reference</h2>
+          <table class="ref-table">
+            <tbody>
+              <tr>
+                <td><kbd>A</kbd> / <kbd>D</kbd></td>
+                <td>Steer handlebars left / right</td>
+              </tr>
+              <tr>
+                <td><kbd>←</kbd> / <kbd>→</kbd></td>
+                <td>Decrease / increase steering sensitivity</td>
+              </tr>
+              <tr>
+                <td><kbd>Left Shift</kbd></td>
+                <td>Increase persistent throttle (0–100%)</td>
+              </tr>
+              <tr>
+                <td><kbd>Left Ctrl</kbd></td>
+                <td>Decrease persistent throttle (0–100%)</td>
+              </tr>
+              <tr>
+                <td><kbd>Spacebar</kbd></td>
+                <td>Apply rear-wheel brake</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </aside>
+
+    <!-- Top-Right Collapsible Telemetry & Debugging Panel -->
+    <aside id="telemetry-panel" class="hud-card telemetry-panel" aria-label="Physics Telemetry and Debugging">
+      <header class="card-header">
+        <div>
+          <h2 class="card-title">Physics Telemetry</h2>
+          <span id="tel-regime-badge" class="regime-badge">STATIONARY</span>
+        </div>
+        <button id="btn-toggle-telemetry" type="button" class="btn-chip" aria-expanded="true">Collapse</button>
+      </header>
+
+      <div id="telemetry-panel-body" class="card-body telemetry-grid">
+        <div class="tel-item">
+          <span class="tel-label">Speed</span>
+          <span id="tel-speed" class="tel-val">0.0 km/h (0.00 m/s)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Forward Accel (<img src="./assets/latex/a_x.svg" class="latex-math-img" alt="a_x" />)</span>
+          <span id="tel-long-accel" class="tel-val">+0.00 m/s²</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Lateral Accel (<img src="./assets/latex/a_y.svg" class="latex-math-img" alt="a_y" />)</span>
+          <span id="tel-lat-accel" class="tel-val">+0.00 m/s²</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Steering-Bar Angle (<img src="./assets/latex/delta.svg" class="latex-math-img" alt="δ" />)</span>
+          <span id="tel-steer-angle" class="tel-val">+0.00° (0.000 rad)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Motorcycle Lean (<img src="./assets/latex/phi.svg" class="latex-math-img" alt="φ" />)</span>
+          <span id="tel-lean-angle" class="tel-val">+0.00° (0.000 rad)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Steady Ref <img src="./assets/latex/atan_ay_g.svg" class="latex-math-img" alt="atan(a_y/g)" /></span>
+          <span id="tel-steady-lean-ref" class="tel-val">+0.00°</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Yaw Rate (<img src="./assets/latex/r_eq_psi_dot.svg" class="latex-math-img" alt="r = \dot{\psi}" />)</span>
+          <span id="tel-yaw-rate" class="tel-val">+0.00 °/s (0.000 rad/s)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Out-Tracking Moment</span>
+          <span id="tel-outtrack-moment" class="tel-val">+0.0 N·m</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Gyro Precession Moment</span>
+          <span id="tel-gyro-moment" class="tel-val">+0.0 N·m (H=0.0)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Longitudinal Forces</span>
+          <span id="tel-forces-long" class="tel-val">F_drv:0N | F_drg:0N</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Throttle</span>
+          <span id="tel-throttle" class="tel-val">0.0%</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Rear-Brake State</span>
+          <span id="tel-rear-brake" class="tel-val">OFF (0 N)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">World Pose (X, Z, <img src="./assets/latex/psi.svg" class="latex-math-img" alt="ψ" />)</span>
+          <span id="tel-pose" class="tel-val">X:0.0m Z:0.0m ψ:0.0°</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Momentum &amp; Stability</span>
+          <span id="tel-momentum-state" class="tel-val">SUFFICIENT (STABLE)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Min Speed for Lean</span>
+          <span id="tel-min-speed" class="tel-val">0.0 km/h (0.00 m/s)</span>
+        </div>
+        <div class="tel-item">
+          <span class="tel-label">Sim Step &amp; FPS</span>
+          <span id="tel-timing" class="tel-val">60 FPS · dt=8.33 ms (120 Hz)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Bottom-Right Compact Speedometer -->
+    <section id="speedometer" class="hud-card speedometer-card" aria-label="Motorcycle Speedometer">
+      <div class="speedo-top-row">
+        <div class="speedo-primary">
+          <div class="speedo-number-wrap">
+            <span id="speedo-speed-value" class="speedo-digits">0.0</span>
+            <span class="speedo-unit">km/h</span>
+          </div>
+          <div id="speedo-ms-value" class="speedo-subspeed">0.0 m/s</div>
+        </div>
+
+        <!-- Compact Artificial Horizon / Bank Indicator -->
+        <div class="speedo-attitude" title="Simulated motorcycle roll angle">
+          <div class="horizon-dial">
+            <div id="speedo-horizon-line" class="horizon-line"></div>
+            <div class="horizon-bike-mark"></div>
+          </div>
+          <span id="speedo-lean-readout" class="horizon-caption">+0.0°</span>
+        </div>
+      </div>
+
+      <!-- Throttle Progress Bar -->
+      <div class="speedo-bar-group">
+        <div class="speedo-bar-header">
+          <span>THROTTLE</span>
+          <span id="speedo-throttle-value" class="mono-value">0%</span>
+        </div>
+        <div class="speedo-bar-track">
+          <div id="speedo-throttle-bar" class="speedo-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Rear Brake & Drivetrain Footer -->
+      <div class="speedo-footer">
+        <div id="speedo-brake-badge" class="brake-status-badge">REAR BRAKE: OFF</div>
+        <div class="drivetrain-meta">
+          <span>GEAR <strong id="speedo-gear-value">1</strong></span>
+          <span class="meta-sep">·</span>
+          <span><strong id="speedo-rpm-value">1250</strong> RPM</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fallen / Crash Notification Banner -->
+    <div id="fall-overlay" class="fall-overlay is-hidden" aria-live="assertive" role="alert">
+      <div class="fall-card">
+        <div class="fall-badge">CRASH / FALLEN</div>
+        <h2 class="fall-title">Motorcycle Lost Momentum</h2>
+        <p id="fall-desc" class="fall-desc">The motorcycle leaned without sufficient forward speed to maintain roll balance under gravity.</p>
+        <div class="fall-prompt">The bike will stay fallen until you reset.</div>
+        <button id="btn-fall-reset" type="button" class="btn-fall-reset">Reset Bike (R)</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

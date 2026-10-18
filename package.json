@@ -1,0 +1,30 @@
+{
+  "name": "motorcycle-simulator",
+  "version": "1.0.0",
+  "description": "Lightweight 3D first-person motorcycle physics simulator demonstrating counter-steering, lean dynamics, steering geometry, longitudinal forces, and gyroscopic effects.",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node scripts/server.js",
+    "dev": "node scripts/server.js",
+    "test": "node --test tests/physics.test.js"
+  },
+  "keywords": [
+    "motorcycle",
+    "physics",
+    "simulator",
+    "threejs",
+    "counter-steering",
+    "vehicle-dynamics"
+  ],
+  "author": "Motorcycle Physics Simulator Team",
+  "license": "MIT",
+  "dependencies": {
+    "katex": "^0.19.0",
+    "mathjax-full": "^3.2.1",
+    "three": "^0.160.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
