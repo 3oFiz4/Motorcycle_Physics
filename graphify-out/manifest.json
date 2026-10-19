@@ -1,0 +1,212 @@
+{
+  "package.json": {
+    "mtime": 1792349380.400175,
+    "seen": 1792422394.3131642,
+    "ast_hash": "bdb74a225762592aeb0d574215e0a778",
+    "semantic_hash": "bdb74a225762592aeb0d574215e0a778"
+  },
+  "scripts/generate-latex-svgs.js": {
+    "mtime": 1792351610.2403114,
+    "seen": 1792422394.3131711,
+    "ast_hash": "ef9fd798f9321d8b1adf16c2f3cabddb",
+    "semantic_hash": "ef9fd798f9321d8b1adf16c2f3cabddb"
+  },
+  "scripts/server.js": {
+    "mtime": 1792351583.3194077,
+    "seen": 1792422394.3131742,
+    "ast_hash": "0824aa38ce9355d1bd87ee8551a08075",
+    "semantic_hash": "0824aa38ce9355d1bd87ee8551a08075"
+  },
+  "src/camera.js": {
+    "mtime": 1792352884.1824987,
+    "seen": 1792422394.3131762,
+    "ast_hash": "6136cb322fa13205d7a7d1fed70d2654",
+    "semantic_hash": "6136cb322fa13205d7a7d1fed70d2654"
+  },
+  "src/input/controls.js": {
+    "mtime": 1792351732.1030765,
+    "seen": 1792422394.3131778,
+    "ast_hash": "791e3ebbcf75e5f1e50e94566e7cbefe",
+    "semantic_hash": "791e3ebbcf75e5f1e50e94566e7cbefe"
+  },
+  "src/main.js": {
+    "mtime": 1792352945.0861006,
+    "seen": 1792422394.3131795,
+    "ast_hash": "d450d39dd53ce18fbb24e8f8e58910f6",
+    "semantic_hash": "d450d39dd53ce18fbb24e8f8e58910f6"
+  },
+  "src/motorcycle.js": {
+    "mtime": 1792353020.9343343,
+    "seen": 1792422394.3131812,
+    "ast_hash": "8ddcf12488a3a6f1a291875cedba3023",
+    "semantic_hash": "8ddcf12488a3a6f1a291875cedba3023"
+  },
+  "src/physics/config.js": {
+    "mtime": 1792351825.0871515,
+    "seen": 1792422394.3131828,
+    "ast_hash": "0d80df4f666969749508265d4b9b03b9",
+    "semantic_hash": "0d80df4f666969749508265d4b9b03b9"
+  },
+  "src/physics/forces.js": {
+    "mtime": 1792351977.7687242,
+    "seen": 1792422394.313184,
+    "ast_hash": "8867472fbd614ba1a0df9bf9f95f8bad",
+    "semantic_hash": "8867472fbd614ba1a0df9bf9f95f8bad"
+  },
+  "src/physics/leanDynamics.js": {
+    "mtime": 1792352084.5730624,
+    "seen": 1792422394.3131855,
+    "ast_hash": "66518e55c76566de3ab7f764f7c6001e",
+    "semantic_hash": "66518e55c76566de3ab7f764f7c6001e"
+  },
+  "src/physics/motorcyclePhysics.js": {
+    "mtime": 1792352601.5521638,
+    "seen": 1792422394.3131871,
+    "ast_hash": "9372747923515ceb1021495e450248f7",
+    "semantic_hash": "9372747923515ceb1021495e450248f7"
+  },
+  "src/physics/steering.js": {
+    "mtime": 1792352707.6875675,
+    "seen": 1792422394.3131886,
+    "ast_hash": "a74b638db845a9dbf453f9ca84e7c526",
+    "semantic_hash": "a74b638db845a9dbf453f9ca84e7c526"
+  },
+  "src/scene.js": {
+    "mtime": 1792353112.5466633,
+    "seen": 1792422394.3131902,
+    "ast_hash": "e81b43720a29b257a490c211aedbf819",
+    "semantic_hash": "e81b43720a29b257a490c211aedbf819"
+  },
+  "src/ui/dashboard.js": {
+    "mtime": 1792352750.4468691,
+    "seen": 1792422394.3131914,
+    "ast_hash": "fbde3a868a2c6924387280d7d81071f1",
+    "semantic_hash": "fbde3a868a2c6924387280d7d81071f1"
+  },
+  "src/ui/telemetry.js": {
+    "mtime": 1792352827.275501,
+    "seen": 1792422394.3131928,
+    "ast_hash": "cb8b7dc45db87d7cc3b44733923ede6d",
+    "semantic_hash": "cb8b7dc45db87d7cc3b44733923ede6d"
+  },
+  "src/vendor/three.module.js": {
+    "mtime": 1792352854.3744771,
+    "seen": 1792422394.3131943,
+    "ast_hash": "0e5feda1573066c70aeba59b9f05de38",
+    "semantic_hash": "0e5feda1573066c70aeba59b9f05de38"
+  },
+  "tests/physics.test.js": {
+    "mtime": 1792345734.894969,
+    "seen": 1792422394.3131957,
+    "ast_hash": "fab258f89167dcba4ad1f605979a9c97",
+    "semantic_hash": "fab258f89167dcba4ad1f605979a9c97"
+  },
+  "Qwen.md": {
+    "mtime": 1792353608.3943877,
+    "seen": 1792422394.3131971,
+    "ast_hash": "974442d8dc363d04cbe4e04de030a8dd",
+    "semantic_hash": "974442d8dc363d04cbe4e04de030a8dd"
+  },
+  "README.md": {
+    "mtime": 1792353515.9885156,
+    "seen": 1792422394.3131986,
+    "ast_hash": "d5a6fe5dee333aa2dec6d47dd5884063",
+    "semantic_hash": "d5a6fe5dee333aa2dec6d47dd5884063"
+  },
+  "changelog/CHANGELOG.md": {
+    "mtime": 1792345790.950982,
+    "seen": 1792422394.3131998,
+    "ast_hash": "033c5e31e16a7045486d7c561c3d3fdf",
+    "semantic_hash": "033c5e31e16a7045486d7c561c3d3fdf"
+  },
+  "feature/FEATURES.md": {
+    "mtime": 1792345779.051161,
+    "seen": 1792422394.3132012,
+    "ast_hash": "2d85bde161e82a63743624286b262e01",
+    "semantic_hash": "2d85bde161e82a63743624286b262e01"
+  },
+  "index.html": {
+    "mtime": 1792349592.4192865,
+    "seen": 1792422394.3132026,
+    "ast_hash": "d2b401c82754d6ed3f2d7c7b3ae76229",
+    "semantic_hash": "d2b401c82754d6ed3f2d7c7b3ae76229"
+  },
+  "reports/PERFORMANCE_REPORT.md": {
+    "mtime": 1792315614.0,
+    "seen": 1792422394.3132048,
+    "ast_hash": "6bc6b86fc38fff9090787fd94f489e72",
+    "semantic_hash": "6bc6b86fc38fff9090787fd94f489e72"
+  },
+  "reports/PHYSICS_MODEL.md": {
+    "mtime": 1792315598.0,
+    "seen": 1792422394.313206,
+    "ast_hash": "edeeaa73d08d9ae8d383c5fb41d6b1e0",
+    "semantic_hash": "edeeaa73d08d9ae8d383c5fb41d6b1e0"
+  },
+  "reports/TEST_REPORT.md": {
+    "mtime": 1792315612.0,
+    "seen": 1792422394.3132074,
+    "ast_hash": "a43fd7f57103ece9d3a3b9bc6b8496ee",
+    "semantic_hash": "a43fd7f57103ece9d3a3b9bc6b8496ee"
+  },
+  "assets/latex/a_x.svg": {
+    "mtime": 1792349440.7664175,
+    "seen": 1792422394.3132088,
+    "ast_hash": "5e409c89972132194ccf03cf319ff9df",
+    "semantic_hash": "5e409c89972132194ccf03cf319ff9df"
+  },
+  "assets/latex/a_y.svg": {
+    "mtime": 1792349440.7694306,
+    "seen": 1792422394.31321,
+    "ast_hash": "4857b9f5afb702c1a52f48dcd6a48870",
+    "semantic_hash": "4857b9f5afb702c1a52f48dcd6a48870"
+  },
+  "assets/latex/atan_ay_g.svg": {
+    "mtime": 1792349440.8595846,
+    "seen": 1792422394.3132117,
+    "ast_hash": "2025c44cd5e97b74225408ac6757158a",
+    "semantic_hash": "2025c44cd5e97b74225408ac6757158a"
+  },
+  "assets/latex/delta.svg": {
+    "mtime": 1792349440.7325747,
+    "seen": 1792422394.313213,
+    "ast_hash": "38a3a4b8d9f80df582e8725da8decb4f",
+    "semantic_hash": "38a3a4b8d9f80df582e8725da8decb4f"
+  },
+  "assets/latex/minus-delta.svg": {
+    "mtime": 1792349440.752848,
+    "seen": 1792422394.3132145,
+    "ast_hash": "b1cb62135cbb75b85926c5056acdd58d",
+    "semantic_hash": "b1cb62135cbb75b85926c5056acdd58d"
+  },
+  "assets/latex/phi.svg": {
+    "mtime": 1792349440.7409585,
+    "seen": 1792422394.313216,
+    "ast_hash": "7d5ee6c4940123da732db2aa94580a75",
+    "semantic_hash": "7d5ee6c4940123da732db2aa94580a75"
+  },
+  "assets/latex/plus-delta.svg": {
+    "mtime": 1792349440.7569046,
+    "seen": 1792422394.3132172,
+    "ast_hash": "575440435b33bb4c80a8741b7f18d0e2",
+    "semantic_hash": "575440435b33bb4c80a8741b7f18d0e2"
+  },
+  "assets/latex/psi.svg": {
+    "mtime": 1792349440.8612456,
+    "seen": 1792422394.3132188,
+    "ast_hash": "0429597364adbea7c8b0d30923c26e25",
+    "semantic_hash": "0429597364adbea7c8b0d30923c26e25"
+  },
+  "assets/latex/psi_dot.svg": {
+    "mtime": 1792349440.8486965,
+    "seen": 1792422394.3132203,
+    "ast_hash": "36df2b1610b099e878c89f21118e4db1",
+    "semantic_hash": "36df2b1610b099e878c89f21118e4db1"
+  },
+  "assets/latex/r_eq_psi_dot.svg": {
+    "mtime": 1792349440.852691,
+    "seen": 1792422394.313222,
+    "ast_hash": "7aa75cb2d8232e3bec71e728ba0f3bf8",
+    "semantic_hash": "7aa75cb2d8232e3bec71e728ba0f3bf8"
+  }
+}
