@@ -1,5 +1,8 @@
 # 3D Motorcycle Physics Simulator
 
+<img width="1920" height="1049" alt="image" src="https://github.com/user-attachments/assets/5b2bcc7c-dd6e-4245-a8d7-fb4438c57836" />
+
+
 some lightweight, browser-based 3D first-person motorcycle physics simulator built with **HTML5**, **CSS3**, **modern ES Modules**, and **Three.js** that is based on actual real physics.
 
 ---
@@ -120,3 +123,9 @@ motorcycle-simulator/
 2. **No Front/Rear Suspension Pitch or Tire Lockup Slip**
 3. **Flat Ground Assumption**: The test environment is an infinite flat horizontal plane ($Y = 0$). Banking, hills, and road surface friction variations are not modeled yet. I might add obstacles, poles, street, grass, ocean.
 4. **Hard Bank Angle Stop**: Lean angle is clamped at $\pm 53^\circ$ ($\pm 0.925\text{ rad}$, representing footpeg/chassis ground contact) with progressive boundary stiffness rather than simulating a lowside crash.
+
+
+## 6. Coming soon
+1. Human
+2. Body leans: If the motorcycle can leans, the body should be able to lean too
+3. Feet stepping with ground
